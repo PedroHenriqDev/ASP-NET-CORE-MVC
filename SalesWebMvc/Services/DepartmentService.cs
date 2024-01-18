@@ -21,6 +21,5 @@ namespace SalesWebMvc.Services
         {
             return _salesContext.Department.OrderBy(x => x.Name).ToList();
         }
-
     }
 }

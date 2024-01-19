@@ -4,7 +4,7 @@
     ViewData["Title"] = "Departments";
 }
 
-<h2>@ViewData["Title"]</h2>
+<h1><span style="font-weight: bold;">@ViewData["Title"]</span></h1>
 
 <p>
     <a asp-action="Create" class="btn btn btn-primary">Create New</a>
@@ -24,7 +24,7 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Name)
+                    <strong>@Html.DisplayFor(modelItem => item.Name)</strong>
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

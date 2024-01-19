@@ -3,8 +3,8 @@
     ViewData["Title"] = "Error";
 }
 
-<h1 class="text-danger">@ViewData["Title"]</h1>
-<h2 class="text-danger">@Model.Message</h2>
+<h1><span style="font-weight: bold; color: red;">@ViewData["Title"]</span></h1>
+<h1><span style="font-weight: bold; color: red;">@Model.Message</span></h1>
 
 @if (Model.ShowRequestId)
 {

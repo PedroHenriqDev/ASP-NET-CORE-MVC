@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.ComponentModel.DataAnnotations;
+using SalesWebMvc.Attributes;
 
 namespace SalesWebMvc.Models
 {
@@ -20,6 +21,7 @@ namespace SalesWebMvc.Models
 
         [Required(ErrorMessage = "{0} required")]
         [Display(Name = "Birth Date")]
+        [Adult(ErrorMessage = "It is mandatory to be an adult")]
         [DataType(DataType.Date)]
         public DateTime BirthDate { get; set; }
 
@@ -53,6 +55,7 @@ namespace SalesWebMvc.Models
         public void AddSales(SalesRecord sr)
         {
             Sales.Add(sr);
+
         }
 
         public void RemoveSales(SalesRecord sr)

@@ -4,6 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SalesWebMvc.Services;
+using SalesWebMvc.Models;
+using SalesWebMvc.Models.ViewModels;
+using SalesWebMvc.Models.Enums;
+
 
 namespace SalesWebMvc.Controllers
 {
@@ -11,15 +15,40 @@ namespace SalesWebMvc.Controllers
     {
 
         private readonly SalesRecordService _salesRecordService;
+        private readonly SellerService _sellerService;
 
-        public SalesRecordsController(SalesRecordService salesRecordService)
+        public SalesRecordsController(SalesRecordService salesRecordService, SellerService sellerService)
         {
             _salesRecordService = salesRecordService;
+            _sellerService = sellerService;
         }
 
         public IActionResult Index()
         {
             return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Create()
+        {
+            var obj = await _sellerService.FindAllAsync();
+            var viewModel = new SaleRecordFormViewModel {Sellers = obj};
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(SalesRecord salesRecord)
+        {
+            if (!ModelState.IsValid)
+            {
+                var obj = await _sellerService.FindAllAsync();
+                SaleRecordFormViewModel viewModel = new SaleRecordFormViewModel { SalesRecord = salesRecord, Sellers = obj };
+                return View(viewModel);
+            }
+
+            await _salesRecordService.InsertAsync(salesRecord);
+            return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> SimpleSearch(DateTime? minDate, DateTime? maxDate)

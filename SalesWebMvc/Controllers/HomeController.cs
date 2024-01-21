@@ -12,7 +12,7 @@ namespace SalesWebMvc.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction("Index", "SalesRecords");
         }
 
         public IActionResult About()

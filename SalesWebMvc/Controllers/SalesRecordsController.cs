@@ -7,7 +7,7 @@ using SalesWebMvc.Services;
 using SalesWebMvc.Models;
 using SalesWebMvc.Models.ViewModels;
 using SalesWebMvc.Models.Enums;
-
+using System.Diagnostics;
 
 namespace SalesWebMvc.Controllers
 {
@@ -40,6 +40,12 @@ namespace SalesWebMvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(SalesRecord salesRecord)
         {
+
+            if (salesRecord == null)
+            {
+                RedirectToAction(nameof(Error), new { Message = "Cannot register this object" });
+            }
+
             if (!ModelState.IsValid)
             {
                 var obj = await _sellerService.FindAllAsync();
@@ -81,6 +87,16 @@ namespace SalesWebMvc.Controllers
             ViewData["maxDate"] = maxDate.Value.ToString("yyyy-MM-dd");
             var result = await _salesRecordService.FindByDateGroupingAsync(minDate, maxDate);
             return View(result);
+        }
+
+        public IActionResult Error(string message)
+        {
+            var viewModel = new ErrorViewModel
+            {
+                Message = message,
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+            };
+            return View(viewModel);
         }
     }
 }
